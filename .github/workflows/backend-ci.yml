@@ -23,7 +23,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build the Docker image
-        run: docker build -f backend/Dockerfile . -t ${{ secrets.DOCKERHUB_USERNAME }}/foodgram-backend:latest
-      - name: Push the Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/foodgram-backend:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodgram-backend:latest
