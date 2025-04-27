@@ -47,13 +47,38 @@ Foodgram — это веб-приложение, позволяющее поль
     git clone https://github.com/polinafirstova/foodgram-st.git
     ```
 
-2.  **Перейдите в директорию `infra`:**
+2. **Перейдите в директорию `backend`:**
 
     ```bash
-    cd infra
+    cd backend
     ```
 
-3.  **Запустите проект с помощью Docker Compose:**
+3.  **Скопируйте файл `.env.example` и переименуйте его в `.env`:**
+
+    ```bash
+    cp .env.example .env
+    ```
+4.  **Заполните файл `.env` своими данными:**
+
+    ```bash
+    POSTGRES_DB=your_database_name
+    POSTGRES_USER=your_database_user
+    POSTGRES_PASSWORD=your_database_password
+    SECRET_KEY=your_secret_key
+    ```
+    
+    *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
+    *   `DATABASE_NAME` — имя базы данных PostgreSQL.
+    *   `DATABASE_USER` — имя пользователя PostgreSQL.
+    *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
+
+5.  **Перейдите в директорию `infra`:**
+
+    ```bash
+    cd ../infra
+    ```
+
+6.  **Запустите проект с помощью Docker Compose:**
 
     ```bash
     docker-compose up -d
@@ -61,11 +86,11 @@ Foodgram — это веб-приложение, позволяющее поль
 
     Эта команда скачает образы `polinafirstova/foodgram-backend:latest` и `polinafirstova/foodgram-frontend:latest` с Docker Hub, а также образы `postgres:14` и `nginx:1.25.4-alpine`, и запустит все контейнеры. Убедитесь, что Docker Desktop запущен.
 
-4.  **Дождитесь запуска всех контейнеров:**
+7.  **Дождитесь запуска всех контейнеров:**
 
     Это может занять несколько минут.
 
-5.  **Откройте проект в браузере:**
+8.  **Откройте проект в браузере:**
 
     Перейдите по адресу `http://localhost/` в своем браузере.
 
