@@ -14,7 +14,7 @@ COPY /backend .
 COPY /data/ingredients.json .
 COPY /data/users.json .
 COPY /data/recipes.json .
-COPY /backend/media/ /app/media/
+# COPY /backend/media/ /app/media/
 
 CMD ["sh", "-c", "python manage.py makemigrations && \
     python manage.py migrate && \
