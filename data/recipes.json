@@ -1,0 +1,537 @@
+[
+    {
+        "author": "admin",
+        "name": "Простой салат",
+        "image": "recipes/images/salad.jpg",
+        "text": "Легкий и освежающий салат для быстрого перекуса.",
+        "cooking_time": 15,
+        "ingredients": [
+            {
+                "id": 1938,
+                "amount": 100
+            },
+            {
+                "id": 1153,
+                "amount": 50
+            },
+            {
+                "id": 1341,
+                "amount": 200
+            },
+            {
+                "id": 1138,
+                "amount": 100
+            },
+            {
+                "id": 1162,
+                "amount": 30
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "admin",
+        "name": "Суп-пюре из тыквы",
+        "image": "recipes/images/pumpkin_soup.jpg",
+        "text": "Нежный и согревающий суп идеально подходит для осеннего вечера.",
+        "cooking_time": 40,
+        "ingredients": [
+            {
+                "id": 1882,
+                "amount": 500
+            },
+            {
+                "id": 886,
+                "amount": 100
+            },
+            {
+                "id": 1053,
+                "amount": 100
+            },
+            {
+                "id": 1633,
+                "amount": 100
+            },
+            {
+                "id": 2055,
+                "amount": 2
+            },
+            {
+                "id": 1162,
+                "amount": 20
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user1",
+        "name": "Курица с овощами в духовке",
+        "image": "recipes/images/baked_chicken.jpg",
+        "text": "Простое и вкусное блюдо, которое не требует много времени на подготовку.",
+        "cooking_time": 60,
+        "ingredients": [
+            {
+                "id": 780,
+                "amount": 500
+            },
+            {
+                "id": 556,
+                "amount": 300
+            },
+            {
+                "id": 1053,
+                "amount": 150
+            },
+            {
+                "id": 886,
+                "amount": 100
+            },
+            {
+                "id": 1162,
+                "amount": 30
+            },
+            {
+                "id": 1684,
+                "amount": 3
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            },
+            {
+                "id": 2055,
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "author": "user1",
+        "name": "Паста Карбонара",
+        "image": "recipes/images/carbonara.jpg",
+        "text": "Классическая итальянская паста с беконом и сыром.",
+        "cooking_time": 25,
+        "ingredients": [
+            {
+                "id": 1713,
+                "amount": 200
+            },
+            {
+                "id": 120,
+                "amount": 150
+            },
+            {
+                "id": 2180,
+                "amount": 2
+            },
+            {
+                "id": 1210,
+                "amount": 50
+            },
+            {
+                "id": 1633,
+                "amount": 50
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user2",
+        "name": "Шоколадный торт",
+        "image": "recipes/images/chocolate_cake.jpg",
+        "text": "Влажный и насыщенный шоколадный торт для особых случаев.",
+        "cooking_time": 90,
+        "ingredients": [
+            {
+                "id": 1398,
+                "amount": 200
+            },
+            {
+                "id": 1546,
+                "amount": 200
+            },
+            {
+                "id": 2180,
+                "amount": 3
+            },
+            {
+                "id": 2092,
+                "amount": 150
+            },
+            {
+                "id": 1646,
+                "amount": 100
+            },
+            {
+                "id": 1032,
+                "amount": 100
+            }
+        ]
+    },
+    {
+        "author": "user2",
+        "name": "Яблочный пирог",
+        "image": "recipes/images/apple_pie.jpg",
+        "text": "Ароматный яблочный пирог с корицей, идеальный для чаепития.",
+        "cooking_time": 75,
+        "ingredients": [
+            {
+                "id": 1398,
+                "amount": 250
+            },
+            {
+                "id": 1546,
+                "amount": 150
+            },
+            {
+                "id": 1646,
+                "amount": 125
+            },
+            {
+                "id": 2137,
+                "amount": 500
+            },
+            {
+                "id": 685,
+                "amount": 5
+            },
+            {
+                "id": 2180,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user3",
+        "name": "Рыба, запеченная с лимоном",
+        "image": "recipes/images/baked_fish.jpg",
+        "text": "Легкое и полезное блюдо из рыбы с цитрусовыми нотками.",
+        "cooking_time": 35,
+        "ingredients": [
+            {
+                "id": 1490,
+                "amount": 400
+            },
+            {
+                "id": 855,
+                "amount": 1
+            },
+            {
+                "id": 1162,
+                "amount": 30
+            },
+            {
+                "id": 2055,
+                "amount": 2
+            },
+            {
+                "id": 1684,
+                "amount": 3
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "admin",
+        "name": "Греческий салат",
+        "image": "recipes/images/greek_salad.jpg",
+        "text": "Классический греческий салат с фетой и оливками.",
+        "cooking_time": 20,
+        "ingredients": [
+            {
+                "id": 1938,
+                "amount": 150
+            },
+            {
+                "id": 1153,
+                "amount": 75
+            },
+            {
+                "id": 1341,
+                "amount": 250
+            },
+            {
+                "id": 1138,
+                "amount": 150
+            },
+            {
+                "id": 886,
+                "amount": 50
+            },
+            {
+                "id": 1162,
+                "amount": 40
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user1",
+        "name": "Борщ",
+        "image": "recipes/images/borsch.jpg",
+        "text": "Насыщенный и ароматный борщ с мясом и овощами.",
+        "cooking_time": 120,
+        "ingredients": [
+            {
+                "id": 279,
+                "amount": 500
+            },
+            {
+                "id": 556,
+                "amount": 200
+            },
+            {
+                "id": 520,
+                "amount": 200
+            },
+            {
+                "id": 1567,
+                "amount": 200
+            },
+            {
+                "id": 1053,
+                "amount": 100
+            },
+            {
+                "id": 886,
+                "amount": 100
+            },
+            {
+                "id": 2055,
+                "amount": 2
+            },
+            {
+                "id": 1684,
+                "amount": 3
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user2",
+        "name": "Блины с творогом",
+        "image": "recipes/images/pancakes.jpg",
+        "text": "Нежные блины с начинкой из сладкого творога.",
+        "cooking_time": 30,
+        "ingredients": [
+            {
+                "id": 1398,
+                "amount": 200
+            },
+            {
+                "id": 1032,
+                "amount": 400
+            },
+            {
+                "id": 2180,
+                "amount": 2
+            },
+            {
+                "id": 1546,
+                "amount": 20
+            },
+            {
+                "id": 1684,
+                "amount": 1
+            },
+            {
+                "id": 1804,
+                "amount": 250
+            }
+        ]
+    },
+    {
+        "author": "user3",
+        "name": "Омлет с овощами",
+        "image": "recipes/images/omelette.jpg",
+        "text": "Быстрый и питательный омлет с разными овощами.",
+        "cooking_time": 15,
+        "ingredients": [
+            {
+                "id": 2180,
+                "amount": 3
+            },
+            {
+                "id": 1032,
+                "amount": 50
+            },
+            {
+                "id": 1341,
+                "amount": 100
+            },
+            {
+                "id": 886,
+                "amount": 30
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            },
+            {
+                "id": 1162,
+                "amount": 10
+            }
+        ]
+    },
+    {
+        "author": "admin",
+        "name": "Куриный суп с лапшой",
+        "image": "recipes/images/chicken_soup.jpg",
+        "text": "Классический куриный суп, полезный и вкусный.",
+        "cooking_time": 50,
+        "ingredients": [
+            {
+                "id": 780,
+                "amount": 500
+            },
+            {
+                "id": 1053,
+                "amount": 100
+            },
+            {
+                "id": 886,
+                "amount": 100
+            },
+            {
+                "id": 822,
+                "amount": 100
+            },
+            {
+                "id": 1684,
+                "amount": 3
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "author": "user1",
+        "name": "Картофельное пюре",
+        "image": "recipes/images/mashed_potatoes.jpg",
+        "text": "Нежное и воздушное картофельное пюре, идеально как гарнир.",
+        "cooking_time": 25,
+        "ingredients": [
+            {
+                "id": 556,
+                "amount": 700
+            },
+            {
+                "id": 1032,
+                "amount": 150
+            },
+            {
+                "id": 1646,
+                "amount": 50
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            }
+        ]
+    },
+    {
+        "author": "user2",
+        "name": "Морковный торт",
+        "image": "recipes/images/carrot_cake.jpg",
+        "text": "Влажный и ароматный морковный торт с кремом.",
+        "cooking_time": 80,
+        "ingredients": [
+            {
+                "id": 1398,
+                "amount": 200
+            },
+            {
+                "id": 1546,
+                "amount": 200
+            },
+            {
+                "id": 1053,
+                "amount": 300
+            },
+            {
+                "id": 2180,
+                "amount": 3
+            },
+            {
+                "id": 1419,
+                "amount": 100
+            },
+            {
+                "id": 685,
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "author": "user3",
+        "name": "Гречка с грибами",
+        "image": "recipes/images/buckwheat.jpg",
+        "text": "Простое и полезное блюдо из гречки и грибов.",
+        "cooking_time": 45,
+        "ingredients": [
+            {
+                "id": 347,
+                "amount": 200
+            },
+            {
+                "id": 353,
+                "amount": 300
+            },
+            {
+                "id": 886,
+                "amount": 100
+            },
+            {
+                "id": 3,
+                "amount": 1419
+            },
+            {
+                "id": 1684,
+                "amount": 2
+            },
+            {
+                "id": 1284,
+                "amount": 1
+            }
+        ]
+    }
+]

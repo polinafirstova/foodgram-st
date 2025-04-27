@@ -1,0 +1,32 @@
+[
+    {
+        "username": "admin",
+        "email": "admin@admin.com",
+        "password": "admin",
+        "first_name": "admin",
+        "last_name": "admin",
+        "is_staff": true,
+        "is_superuser": true
+    },
+    {
+        "username": "user1",
+        "email": "user1@user1.com",
+        "password": "user1pass123",
+        "first_name": "user1",
+        "last_name": "user1"
+    },
+    {
+        "username": "user2",
+        "email": "user2@user2.com",
+        "password": "user2pass123",
+        "first_name": "user2",
+        "last_name": "user2"
+    },
+    {
+        "username": "user3",
+        "email": "user3@user3.com",
+        "password": "user3pass123",
+        "first_name": "user3",
+        "last_name": "user3"
+    }
+]
