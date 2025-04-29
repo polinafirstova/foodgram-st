@@ -11,14 +11,12 @@ COPY /backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY /backend .
-COPY /data/ingredients.json .
-COPY /data/users.json .
-COPY /data/recipes.json .
-# COPY /backend/media/ /app/media/
+COPY /data ./data/
+# COPY /backend/media/ ./media/
 
 CMD ["sh", "-c", "python manage.py makemigrations && \
     python manage.py migrate && \
-    python manage.py load_ingredients && \
-    python manage.py load_users && \
-    python manage.py load_recipes && \
+    python manage.py load_data --type ingredients && \
+    python manage.py load_data --type users && \
+    python manage.py load_data --type recipes && \
     python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 backend.wsgi"]

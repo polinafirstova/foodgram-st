@@ -41,6 +41,8 @@ Foodgram — это веб-приложение, позволяющее поль
 
 ## Запуск проекта
 
+**С использованием Docker Compose:**
+
 1.  **Склонируйте репозиторий:**
 
     ```bash
@@ -92,37 +94,114 @@ Foodgram — это веб-приложение, позволяющее поль
 
 8.  **Откройте проект в браузере:**
 
-    Перейдите по адресу `http://localhost/` в своем браузере.
+    Перейдите по [ссылке](http://localhost/) в своем браузере.
+
+**Развертывание без Docker (Альтернативный способ):**
+
+Эти инструкции предполагают, что у вас установлены Python 3.12 и PostgreSQL.
+
+1.  **Клонируйте репозиторий:**
+
+    ```bash
+    git clone https://github.com/polinafirstova/foodgram-st.git
+    ```
+
+2.  **Создайте и активируйте виртуальное окружение:**
+
+    ```bash
+    cd backend
+    python3 -m venv venv
+    source venv/bin/activate  # Для Linux/macOS
+    venv\Scripts\activate  # Для Windows
+    ```
+
+3.  **Установите зависимости:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Настройте PostgreSQL:**
+
+    *   Убедитесь, что PostgreSQL установлен и запущен.
+    *   Создайте базу данных, пользователя и предоставьте пользователю права на эту базу данных.
+
+5.  **Настройте Django:**
+
+    1.    **Скопируйте файл `.env.example` и переименуйте его в `.env`:**
+
+            ```bash
+            cp .env.example .env
+            ```
+    2.  **Заполните файл `.env` своими данными:**
+
+            ```bash
+            POSTGRES_DB=your_database_name
+            POSTGRES_USER=your_database_user
+            POSTGRES_PASSWORD=your_database_password
+            SECRET_KEY=your_secret_key
+            ```
+            
+            *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
+            *   `DATABASE_NAME` — имя базы данных PostgreSQL.
+            *   `DATABASE_USER` — имя пользователя PostgreSQL.
+            *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
+
+    3.    **Измените настройки базы данных в `backend/settings.py` на свои:**
+
+            Замените `HOST` и `PORT` на свои значения.
+
+            ```python
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                    'NAME': os.environ['POSTGRES_DB'],
+                    'USER': os.environ['POSTGRES_USER'],
+                    'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+                    'HOST': 'db',
+                    'PORT': 5432,
+                }
+            }
+            ```
+    4.    Выполните миграции:
+
+            ```bash
+            python manage.py migrate
+            ```
+
+    5.    Создайте суперпользователя:
+
+            ```bash
+            python manage.py createsuperuser
+            ```
+
+6.  **Загрузите фикстуры (необязательно):**
+
+    Если вы хотите загрузить предзагруженные данные:
+
+    ```bash
+    python manage.py load_data --type ingredients
+    python manage.py load_data --type users
+    python manage.py load_data --type recipes
+    ```
+
+7.  **Запустите сервер Django:**
+
+    ```bash
+    python manage.py runserver
+    ```
+    
+8.  **Откройте проект в браузере:**
+
+    Перейдите по [ссылке](http://localhost:8000/) в своем браузере.
 
 ## Дополнительные инструкции
 
-*   **Суперпользователь:**
-    *   Логин: `admin@admin.com`
-    *   Пароль: `admin`
-*   **Тестовые пользователи:**
-    *   Пользователь 1:
-        *   Email: `user1@user1.com`
-        *   Пароль: `user1pass123`
-    *   Пользователь 2:
-        *   Email: `user2@user2.com`
-        *   Пароль: `user2pass123`
-    *   Пользователь 3:
-        *   Email: `user3@user3.com`
-        *   Пароль: `user3pass123`
 *   **API:**
-    *   Документация API доступна по адресу `http://localhost/api/docs/`.
+    *   Документация API доступна по адресу `http://localhost/api/docs/` (если запущено с Docker) или `http://localhost:8000/api/docs/` (если запущено без Docker).
 *   **Админ-панель:**
-    *   Админ-панель доступна по адресу `http://localhost/admin/`.
-    *   Для модели пользователей доступен поиск по имени и email.
-    *   Для модели рецептов включен поиск по названию и автору. На странице рецепта отображается количество добавлений в избранное.
-    *   Для модели ингредиентов работает поиск по названию.
-*   **Предзагруженные данные:**
-    *   В базе данных уже загружены ингредиенты, пользователи и рецепты.
+    *   Админ-панель доступна по адресу `http://localhost/admin/` (если запущено с Docker) или `http://localhost:8000/admin/` (если запущено без Docker).
 
 ## CI/CD
 
 Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветки `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
-
-## Автор
-
-Полина Фирстова
