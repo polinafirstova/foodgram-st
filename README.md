@@ -135,21 +135,21 @@ Foodgram — это веб-приложение, позволяющее поль
             ```
     2.  **Заполните файл `.env` своими данными:**
 
-            ```bash
-            POSTGRES_DB=your_database_name
-            POSTGRES_USER=your_database_user
-            POSTGRES_PASSWORD=your_database_password
-            SECRET_KEY=your_secret_key
-            ```
-            
-            *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
-            *   `DATABASE_NAME` — имя базы данных PostgreSQL.
-            *   `DATABASE_USER` — имя пользователя PostgreSQL.
-            *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
+        ```bash
+        POSTGRES_DB=your_database_name
+        POSTGRES_USER=your_database_user
+        POSTGRES_PASSWORD=your_database_password
+        SECRET_KEY=your_secret_key
+        ```
+        
+        *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
+        *   `DATABASE_NAME` — имя базы данных PostgreSQL.
+        *   `DATABASE_USER` — имя пользователя PostgreSQL.
+        *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
 
     3.    **Измените настройки базы данных в `backend/settings.py` на свои:**
 
-            Замените `HOST` и `PORT` на свои значения.
+            Укажите параметры подключения к вашей базе данных PostgreSQL. Убедитесь, что значения `HOST` и `PORT` соответствуют настройкам вашей базы данных. Для локального запуска PostgreSQL `HOST` может быть `localhost` или `127.0.0.1.`. `PORT` обычно равен `5432` для PostgreSQL.
 
             ```python
             DATABASES = {
@@ -177,7 +177,7 @@ Foodgram — это веб-приложение, позволяющее поль
 
 6.  **Загрузите фикстуры (необязательно):**
 
-    Если вы хотите загрузить предзагруженные данные:
+    Если вы хотите загрузить стартовые данные:
 
     ```bash
     python manage.py load_data --type ingredients
@@ -204,4 +204,4 @@ Foodgram — это веб-приложение, позволяющее поль
 
 ## CI/CD
 
-Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветки `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
+Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветку `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
