@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'api',
+    'recipes',
 ]
 
 SITE_ID = 1

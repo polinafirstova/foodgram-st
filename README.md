@@ -49,10 +49,10 @@ Foodgram — это веб-приложение, позволяющее поль
     git clone https://github.com/polinafirstova/foodgram-st.git
     ```
 
-2. **Перейдите в директорию `backend`:**
+2. **Перейдите в директорию `backend`, которая находится в корне проекта `foodgram-st`:**
 
     ```bash
-    cd backend
+    cd foodgram-st/backend
     ```
 
 3.  **Скопируйте файл `.env.example` и переименуйте его в `.env`:**
@@ -100,33 +100,37 @@ Foodgram — это веб-приложение, позволяющее поль
 
 Эти инструкции предполагают, что у вас установлены Python 3.12 и PostgreSQL.
 
-1.  **Клонируйте репозиторий:**
+1.  **Склонируйте репозиторий:**
 
     ```bash
     git clone https://github.com/polinafirstova/foodgram-st.git
     ```
 
-2.  **Создайте и активируйте виртуальное окружение:**
+2.  **Перейдите в директорию `backend`, которая находится в корне проекта `foodgram-st`:**
+    ```bash
+    cd foodgram-st/backend
+    ```
+
+3.  **Создайте и активируйте виртуальное окружение:**
 
     ```bash
-    cd backend
     python3 -m venv venv
     source venv/bin/activate  # Для Linux/macOS
     venv\Scripts\activate  # Для Windows
     ```
 
-3.  **Установите зависимости:**
+4.  **Установите зависимости:**
 
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Настройте PostgreSQL:**
+5.  **Настройте PostgreSQL:**
 
     *   Убедитесь, что PostgreSQL установлен и запущен.
-    *   Создайте базу данных, пользователя и предоставьте пользователю права на эту базу данных.
+    *   Создайте пустую базу данных, пользователя и предоставьте пользователю права на эту базу данных. Миграции для создания таблиц и заполнения базы данных будут выполнены на следующем шаге.
 
-5.  **Настройте Django:**
+6.  **Настройте Django:**
 
     1.    **Скопируйте файл `.env.example` и переименуйте его в `.env`:**
 
@@ -135,34 +139,34 @@ Foodgram — это веб-приложение, позволяющее поль
             ```
     2.  **Заполните файл `.env` своими данными:**
 
-            ```bash
-            POSTGRES_DB=your_database_name
-            POSTGRES_USER=your_database_user
-            POSTGRES_PASSWORD=your_database_password
-            SECRET_KEY=your_secret_key
-            ```
-            
-            *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
-            *   `DATABASE_NAME` — имя базы данных PostgreSQL.
-            *   `DATABASE_USER` — имя пользователя PostgreSQL.
-            *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
+       ```bash
+        POSTGRES_DB=your_database_name
+        POSTGRES_USER=your_database_user
+        POSTGRES_PASSWORD=your_database_password
+        SECRET_KEY=your_secret_key
+        ```
+        
+        *   `SECRET_KEY` — cекретный ключ Django. Сгенерируйте случайную строку (например, с помощью `python -c "import secrets; print(secrets.token_hex())"`).
+        *   `DATABASE_NAME` — имя базы данных PostgreSQL.
+        *   `DATABASE_USER` — имя пользователя PostgreSQL.
+        *   `DATABASE_PASSWORD` — пароль пользователя PostgreSQL.
 
-    3.    **Измените настройки базы данных в `backend/settings.py` на свои:**
+    3.  **Измените настройки базы данных в `backend/settings.py` на свои:**
 
-            Замените `HOST` и `PORT` на свои значения.
+        Укажите параметры подключения к вашей базе данных PostgreSQL. Убедитесь, что значения `HOST` и `PORT` соответствуют настройкам вашей базы данных. Для локального запуска PostgreSQL `HOST` может быть `localhost` или `127.0.0.1.`. `PORT` обычно равен `5432` для PostgreSQL.
 
-            ```python
-            DATABASES = {
-                'default': {
-                    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                    'NAME': os.environ['POSTGRES_DB'],
-                    'USER': os.environ['POSTGRES_USER'],
-                    'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-                    'HOST': 'db',
-                    'PORT': 5432,
-                }
+        ```python
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': os.environ['POSTGRES_DB'],
+                'USER': os.environ['POSTGRES_USER'],
+                'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+                'HOST': 'db',
+                'PORT': 5432,
             }
-            ```
+        }
+        ```
     4.    Выполните миграции:
 
             ```bash
@@ -175,33 +179,31 @@ Foodgram — это веб-приложение, позволяющее поль
             python manage.py createsuperuser
             ```
 
-6.  **Загрузите фикстуры (необязательно):**
+7.  **Загрузите фикстуры (необязательно):**
 
-    Если вы хотите загрузить предзагруженные данные:
+    Если вы хотите загрузить стартовые данные:
 
     ```bash
-    python manage.py load_data --type ingredients
-    python manage.py load_data --type users
-    python manage.py load_data --type recipes
+    python manage.py load_data
     ```
 
-7.  **Запустите сервер Django:**
+8.  **Запустите сервер Django:**
 
     ```bash
     python manage.py runserver
     ```
     
-8.  **Откройте проект в браузере:**
+9.  **Откройте проект в браузере:**
 
     Перейдите по [ссылке](http://localhost:8000/) в своем браузере.
 
 ## Дополнительные инструкции
 
 *   **API:**
-    *   Документация API доступна по адресу `http://localhost/api/docs/` (если запущено с Docker) или `http://localhost:8000/api/docs/` (если запущено без Docker).
+    *   Документация API доступна по [ссылке](http://localhost/api/docs/), если запущено с Docker, или по [ссылке](http://localhost:8000/api/docs/), если запущено без Docker.
 *   **Админ-панель:**
-    *   Админ-панель доступна по адресу `http://localhost/admin/` (если запущено с Docker) или `http://localhost:8000/admin/` (если запущено без Docker).
+    *   Админ-панель доступна по [ссылке](`http://localhost/admin/), если запущено с Docker, или по [ссылке](http://localhost:8000/admin/), если запущено без Docker.
 
 ## CI/CD
 
-Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветки `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
+Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветку `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
