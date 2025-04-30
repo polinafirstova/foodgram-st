@@ -139,7 +139,7 @@ Foodgram — это веб-приложение, позволяющее поль
             ```
     2.  **Заполните файл `.env` своими данными:**
 
-       ```bash
+        ```bash
         POSTGRES_DB=your_database_name
         POSTGRES_USER=your_database_user
         POSTGRES_PASSWORD=your_database_password
