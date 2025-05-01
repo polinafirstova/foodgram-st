@@ -1,11 +1,4 @@
 from django.contrib.admin import SimpleListFilter
-from api.filters import BooleanListFilter
-
-
-class HasRecipesFilter(BooleanListFilter):
-    title = 'Используется в рецептах'
-    parameter_name = 'has_recipes'
-    field_name = 'ingredients_in_recipe'
 
 
 class CookingTimeFilter(SimpleListFilter):
@@ -16,25 +9,25 @@ class CookingTimeFilter(SimpleListFilter):
     def calculate_thresholds(self, queryset):
         all_times = sorted(queryset.values_list(
             'cooking_time', flat=True).distinct())
+        print(f'all_times {all_times}')
         if len(all_times) < 3:
-            if len(all_times) == 0:
-                return None, None
-            elif len(all_times) == 1:
-                return all_times[0] - 10, all_times[0] + 10
-            else:
-                return (all_times[0] + (all_times[1] - all_times[0]) // 3,
-                        all_times[1] - (all_times[1] - all_times[0]) // 3)
+            return None
 
         n = all_times[len(all_times) // 3]
         m = all_times[2 * len(all_times) // 3]
+        print(f'n {n} m {m}')
         return n, m
 
     def lookups(self, request, model_admin):
-        queryset = model_admin.model.objects.all()
-        n, m = self.thresholds
+        if self.thresholds is None:
+            queryset = model_admin.model.objects.all()
+            self.thresholds = self.calculate_thresholds(queryset)
 
-        if n is None or m is None:
+        thresholds = self.thresholds
+        if thresholds is None:
             return []
+
+        n, m = thresholds
 
         less_than_n_count = queryset.filter(cooking_time__lt=n).count()
         between_n_m_count = queryset.filter(
@@ -49,7 +42,12 @@ class CookingTimeFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         value = self.value()
-        n, m = self.thresholds
+        if self.thresholds is None:
+            return queryset
+
+        thresholds = self.thresholds
+
+        n, m = thresholds
 
         if value == 'fast':
             return queryset.filter(cooking_time__lt=n)
@@ -58,3 +56,35 @@ class CookingTimeFilter(SimpleListFilter):
         elif value == 'long':
             return queryset.filter(cooking_time__gte=m)
         return queryset
+
+
+class BooleanListFilter(SimpleListFilter):
+    title = 'Boolean Filter'
+    parameter_name = 'boolean_filter'
+    field_name = None
+    lookup_choices = (
+        ('yes', 'Да'),
+        ('no', 'Нет'),
+    )
+
+    def lookups(self, request, model_admin):
+        return self.lookup_choices
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(**{f'{self.field_name}__isnull': False}).distinct()
+        if self.value() == 'no':
+            return queryset.filter(**{f'{self.field_name}__isnull': True})
+        return queryset
+
+
+class HasSubscriptionsFilter(BooleanListFilter):
+    title = 'Есть подписки'
+    parameter_name = 'has_subscriptions'
+    field_name = 'subscriptions'
+
+
+class HasFollowersFilter(BooleanListFilter):
+    title = 'Есть подписчики'
+    parameter_name = 'has_followers'
+    field_name = 'authors'

@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from recipes.models import Ingredient, IngredientInRecipe, Recipe
-from .models import Subscription
+from recipes.models import Ingredient, IngredientInRecipe, Recipe, Subscription
 from django.contrib.auth import get_user_model
 from .fields import Base64ToImageField, Base64RequiredImageField
 from rest_framework.exceptions import ValidationError
@@ -92,7 +91,7 @@ class RecipeSerializer(BaseRecipeSerializer):
     def get_is_in_shopping_cart(self, recipe):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return recipe.shopping_cart.filter(user=request.user).exists()
+            return recipe.shopping_carts.filter(user=request.user).exists()
         return False
 
 
@@ -130,13 +129,13 @@ class RecipeCreateUpdateSerializer(RecipeSerializer):
         return super().update(instance, validated_data)
 
     def _create_ingredients(self, recipe, ingredients_data):
-        IngredientInRecipe.objects.bulk_create([
+        IngredientInRecipe.objects.bulk_create(
             IngredientInRecipe(
                 recipe=recipe,
                 ingredient=ingredient_data['id'],
                 amount=ingredient_data['amount'])
             for ingredient_data in ingredients_data
-        ])
+        )
 
 
 class UserSerializer(DjoserUserSerializer):

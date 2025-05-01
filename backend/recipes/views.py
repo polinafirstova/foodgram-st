@@ -1,8 +1,9 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
+from django.http import Http404
 from .models import Recipe
 
 
 def redirect_to_recipe(request, recipe_id):
-    get_object_or_404(Recipe, pk=recipe_id)
-    recipe_url = f'/recipes/{recipe_id}'
-    return redirect(recipe_url)
+    if not Recipe.objects.filter(pk=recipe_id).exists():
+        raise Http404('Рецепт не найден')
+    return redirect(f'/recipes/{recipe_id}')

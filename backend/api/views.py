@@ -1,6 +1,5 @@
 from rest_framework import viewsets, permissions, status
-from recipes.models import Ingredient, IngredientInRecipe, Recipe, ShoppingCart, Favorite
-from .models import Subscription
+from recipes.models import Ingredient, IngredientInRecipe, Recipe, ShoppingCart, Favorite, Subscription
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
@@ -18,11 +17,11 @@ from .pagination import PagePagination
 from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsAuthorOrReadOnly
 from django.db.models import Exists, OuterRef, Count
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from datetime import datetime
 from djoser.views import UserViewSet as DjoserUserViewSet
 from django.db.models import Sum
+from django.http import Http404
 
 
 User = get_user_model()
@@ -47,6 +46,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['author']
     ordering_fields = ['id', 'name', 'cooking_time']
+    permission_classes_by_action = {
+        'update': [IsAuthorOrReadOnly],
+        'partial_update': [IsAuthorOrReadOnly],
+        'destroy': [IsAuthorOrReadOnly],
+        'list': [permissions.AllowAny],
+        'retrieve': [permissions.AllowAny],
+        'default': [permissions.IsAuthenticatedOrReadOnly]
+    }
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -55,14 +62,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return BaseRecipeSerializer
         return super().get_serializer_class()
 
-    @property
-    def permission_classes(self):
-        if self.action in ['update', 'partial_update', 'destroy']:
-            return [IsAuthorOrReadOnly]
-        elif self.action in ['list', 'retrieve', 'get_link']:
-            return [permissions.AllowAny]
-        else:
-            return [permissions.IsAuthenticatedOrReadOnly]
+    def get_permissions(self):
+        try:
+            return [permission() for permission in
+                    self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in
+                    self.permission_classes_by_action['default']]
 
     def get_queryset(self):
         queryset = Recipe.objects.all().order_by('-id')
@@ -96,23 +102,27 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True,
             methods=['get'],
-            url_path='get-link')
+            url_path='get-link',
+            permission_classes=[permissions.AllowAny])
     def get_link(self, request, pk=None):
-        recipe = get_object_or_404(self.queryset, pk=pk)
+        if not Recipe.objects.filter(pk=pk).exists():
+            raise Http404('Рецепт не найден')
         short_link = request.build_absolute_uri(
-            reverse('redirect_to_recipe', args=[recipe.pk]))
+            reverse('redirect_to_recipe', args=[pk]))
         return Response(data={'short-link': short_link},
                         status=status.HTTP_200_OK)
 
     @action(detail=True,
-            methods=['post', 'delete'])
+            methods=['post', 'delete'],
+            permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def shopping_cart(self, request, pk=None):
         return self._handle_cart_or_favorite(request,
                                              pk,
                                              ShoppingCart)
 
     @action(detail=True,
-            methods=['post', 'delete'])
+            methods=['post', 'delete'],
+            permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def favorite(self, request, pk=None):
         return self._handle_cart_or_favorite(request,
                                              pk,
@@ -133,6 +143,45 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(self.get_serializer(
                 recipe, context={'request': request}).data,
                 status=status.HTTP_201_CREATED)
+
+        # Из openapi-schema.yml и foodgram.postman_collection.json
+
+        # responses:
+        # '204':
+        #     description: 'Рецепт успешно удален из избранного'
+        # '400':
+        #     description: 'Ошибка удаления из избранного (Например, когда рецепта там не было)'
+        # '401':
+        #     $ref: '#/components/responses/AuthenticationError'
+        # '404':
+        #     $ref: '#/components/responses/RecipeNotFound'
+
+        # pm.test("Статус-код ответа должен быть 400", function () {
+        #     pm.expect(
+        #         pm.response.status,
+        #         "Запрос пользователя на удаление из избранного рецепта, который не был туда добавлен,
+        # должен вернуть ответ со статусом 400"
+        #     ).to.be.eql("Bad Request");
+        # });
+
+        # responses:
+        # '204':
+        #   description: 'Рецепт успешно удален из списка покупок'
+        # '400':
+        #   description: 'Ошибка удаления из списка покупок (Например, когда рецепта там не было)'
+        # '401':
+        #   $ref: '#/components/responses/AuthenticationError'
+        # '404':
+        #   $ref: '#/components/responses/RecipeNotFound'
+
+        # pm.test("Статус-код ответа должен быть 400", function () {
+        #     pm.expect(
+        #         pm.response.status,
+        #         "Запрос зарегистрированного пользователя на удаление из корзины рецепта,
+        # который не был туда добавлен, должен вернуть ответ со статусом 400"
+        #     ).to.be.eql("Bad Request");
+        # });
+
         try:
             model.objects.get(user=user, recipe=recipe).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -144,7 +193,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
 
     @action(detail=False,
-            methods=['get'])
+            methods=['get'],
+            permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def download_shopping_cart(self, request):
         user = request.user
         shopping_cart = ShoppingCart.objects.filter(user=user)
@@ -168,8 +218,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
               f'{ingredient["total_amount"]} {ingredient["ingredient__measurement_unit"]};'
               for i, ingredient in enumerate(ingredients, 1)],
             '\nРецепты:',
-            *[f'{i}. {recipe.name} — {recipe.author.last_name} '
-              f'{recipe.author.first_name} ({recipe.author.username});'
+            *[f'{i}. {recipe.name} — {recipe.author.username};'
               for i, recipe in enumerate(recipes, 1)],
         ])
 
@@ -212,6 +261,26 @@ class UserViewSet(DjoserUserViewSet):
                                 status=status.HTTP_400_BAD_REQUEST)
             return Response(self.get_serializer(author).data,
                             status=status.HTTP_201_CREATED)
+
+        # Из openapi-schema.yml и foodgram.postman_collection.json
+
+        # responses:
+        # '204':
+        #   description: 'Успешная отписка'
+        # '400':
+        #   description: 'Ошибка отписки (Например, если не был подписан)'
+        # '401':
+        #   $ref: '#/components/responses/AuthenticationError'
+        # '404':
+        #   $ref: '#/components/responses/UserNotFound'
+
+        # pm.test("Статус-код ответа должен быть 400", function () {
+        #     pm.expect(
+        #         pm.response.status,
+        #         "При попытке пользователя удалить несуществующую подписку должен вернуться ответ со статусом 400"
+        #     ).to.be.eql("Bad Request");
+        # });
+
         try:
             Subscription.objects.get(user=user, author=author).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
