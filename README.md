@@ -209,4 +209,4 @@ Foodgram — это веб-приложение, позволяющее поль
 Автоматическая сборка и публикация образов на Docker Hub настроены с помощью GitHub Actions. При каждом push в ветку `main` backend автоматически проверяется, собирается и публикуется на Docker Hub.
 
 ## Автор
-Фирстова Полина — (email)[mailto:p.i.firstova@gmail.com].
+Фирстова Полина — [email](mailto:p.i.firstova@gmail.com).
