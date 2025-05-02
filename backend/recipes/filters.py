@@ -9,13 +9,11 @@ class CookingTimeFilter(SimpleListFilter):
     def calculate_thresholds(self, queryset):
         all_times = sorted(queryset.values_list(
             'cooking_time', flat=True).distinct())
-        print(f'all_times {all_times}')
         if len(all_times) < 3:
             return None
 
         n = all_times[len(all_times) // 3]
         m = all_times[2 * len(all_times) // 3]
-        print(f'n {n} m {m}')
         return n, m
 
     def lookups(self, request, model_admin):
@@ -23,11 +21,10 @@ class CookingTimeFilter(SimpleListFilter):
             queryset = model_admin.model.objects.all()
             self.thresholds = self.calculate_thresholds(queryset)
 
-        thresholds = self.thresholds
-        if thresholds is None:
+        if self.thresholds is None:
             return []
 
-        n, m = thresholds
+        n, m = self.thresholds
 
         less_than_n_count = queryset.filter(cooking_time__lt=n).count()
         between_n_m_count = queryset.filter(
@@ -45,9 +42,7 @@ class CookingTimeFilter(SimpleListFilter):
         if self.thresholds is None:
             return queryset
 
-        thresholds = self.thresholds
-
-        n, m = thresholds
+        n, m = self.thresholds
 
         if value == 'fast':
             return queryset.filter(cooking_time__lt=n)

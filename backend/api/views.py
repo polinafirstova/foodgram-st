@@ -143,45 +143,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(self.get_serializer(
                 recipe, context={'request': request}).data,
                 status=status.HTTP_201_CREATED)
-
-        # Из openapi-schema.yml и foodgram.postman_collection.json
-
-        # responses:
-        # '204':
-        #     description: 'Рецепт успешно удален из избранного'
-        # '400':
-        #     description: 'Ошибка удаления из избранного (Например, когда рецепта там не было)'
-        # '401':
-        #     $ref: '#/components/responses/AuthenticationError'
-        # '404':
-        #     $ref: '#/components/responses/RecipeNotFound'
-
-        # pm.test("Статус-код ответа должен быть 400", function () {
-        #     pm.expect(
-        #         pm.response.status,
-        #         "Запрос пользователя на удаление из избранного рецепта, который не был туда добавлен,
-        # должен вернуть ответ со статусом 400"
-        #     ).to.be.eql("Bad Request");
-        # });
-
-        # responses:
-        # '204':
-        #   description: 'Рецепт успешно удален из списка покупок'
-        # '400':
-        #   description: 'Ошибка удаления из списка покупок (Например, когда рецепта там не было)'
-        # '401':
-        #   $ref: '#/components/responses/AuthenticationError'
-        # '404':
-        #   $ref: '#/components/responses/RecipeNotFound'
-
-        # pm.test("Статус-код ответа должен быть 400", function () {
-        #     pm.expect(
-        #         pm.response.status,
-        #         "Запрос зарегистрированного пользователя на удаление из корзины рецепта,
-        # который не был туда добавлен, должен вернуть ответ со статусом 400"
-        #     ).to.be.eql("Bad Request");
-        # });
-
         try:
             model.objects.get(user=user, recipe=recipe).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -194,7 +155,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,
             methods=['get'],
-            permission_classes=[permissions.IsAuthenticatedOrReadOnly])
+            permission_classes=[permissions.IsAuthenticated])
     def download_shopping_cart(self, request):
         user = request.user
         shopping_cart = ShoppingCart.objects.filter(user=user)
@@ -261,26 +222,6 @@ class UserViewSet(DjoserUserViewSet):
                                 status=status.HTTP_400_BAD_REQUEST)
             return Response(self.get_serializer(author).data,
                             status=status.HTTP_201_CREATED)
-
-        # Из openapi-schema.yml и foodgram.postman_collection.json
-
-        # responses:
-        # '204':
-        #   description: 'Успешная отписка'
-        # '400':
-        #   description: 'Ошибка отписки (Например, если не был подписан)'
-        # '401':
-        #   $ref: '#/components/responses/AuthenticationError'
-        # '404':
-        #   $ref: '#/components/responses/UserNotFound'
-
-        # pm.test("Статус-код ответа должен быть 400", function () {
-        #     pm.expect(
-        #         pm.response.status,
-        #         "При попытке пользователя удалить несуществующую подписку должен вернуться ответ со статусом 400"
-        #     ).to.be.eql("Bad Request");
-        # });
-
         try:
             Subscription.objects.get(user=user, author=author).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)

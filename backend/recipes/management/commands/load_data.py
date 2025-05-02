@@ -12,11 +12,7 @@ class Command(BaseCommand):
         try:
             project_root = settings.BASE_DIR
             possible_paths = [
-                # Путь для загрузки продуктов из ./ingredients.json
-                # (если проект запускается с использованием докера)
                 os.path.join(project_root, 'ingredients.json'),
-                # Путь для загрузки продуктов из data/ingredients.json
-                # (если проект запускается локально без использования докера)
                 os.path.join(project_root, '..', 'data', 'ingredients.json'),
             ]
 
@@ -37,5 +33,5 @@ class Command(BaseCommand):
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(
-                f'An error occurred: {e}'
+                f'An error occurred ingredients.json: {e}'
             ))
